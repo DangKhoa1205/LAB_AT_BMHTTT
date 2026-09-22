@@ -44,83 +44,6 @@ Cập nhật bản vá KB5124008 và tạo snapshot điểm chuẩn tên LAB3_CL
 Bước 2: Tạo cấu trúc thư mục làm việc
 Mở PowerShell dưới quyền Administrator và khởi tạo các thư mục lưu trữ:
 
-$Lab = 'C:\LAB3'
-New-Item -ItemType Directory -Force "$Lab\Evidence", "$Lab\Tools", "$Lab\Downloads", "$Lab\Assets" | Out-Null
-Get-Date -Format 'yyyy-MM-dd HH:mm:ss zzz' | Out-File "$Lab\Evidence\start_time.txt"
-
-Bước 3: Giải nén gói dữ liệu bài lab
-Đưa file LAB3_Threats_Assets.zip vào C:\LAB3\Downloads, đối chiếu mã hash SHA-256 và giải nén:
-
-Get-FileHash C:\LAB3\Downloads\LAB3_Threats_Assets.zip -Algorithm SHA256
-Expand-Archive C:\LAB3\Downloads\LAB3_Threats_Assets.zip -DestinationPath C:\LAB3 -Force
-
-Get-FileHash C:\LAB3\Downloads\LAB3_Threats_Assets.zip -Algorithm SHA256
-Expand-Archive C:\LAB3\Downloads\LAB3_Threats_Assets.zip -DestinationPath C:\LAB3 -Force
-
-Bước 4: Cài đặt Python 3.14.7 và Wireshark 4.6.8
-Cài đặt bằng winget
-
-winget install --id Python.Python.3.14 --exact --version 3.14.7 --accept-package-agreements --accept-source-agreements
-winget install --id WiresharkFoundation.Wireshark --exact --version 4.6.8 --accept-package-agreements --accept-source-agreements
-
-Bước 5: Tải bộ công cụ Sysinternals
-Tải trực tiếp từ máy chủ Microsoft và giải nén vào C:\LAB3\Tools:
-
-$D='C:\LAB3\Downloads'; $T='C:\LAB3\Tools'
-Invoke-WebRequest 'https://download.sysinternals.com/files/Sysmon.zip' -OutFile "$D\Sysmon.zip"
-Invoke-WebRequest 'https://download.sysinternals.com/files/Autoruns.zip' -OutFile "$D\Autoruns.zip"
-Invoke-WebRequest 'https://download.sysinternals.com/files/ProcessExplorer.zip' -OutFile "$D\ProcessExplorer.zip"
-
-Expand-Archive "$D\Sysmon.zip" -DestinationPath "$T\Sysmon" -Force
-Expand-Archive "$D\Autoruns.zip" -DestinationPath "$T\Autoruns" -Force
-Expand-Archive "$D\ProcessExplorer.zip" -DestinationPath "$T\ProcessExplorer" -Force
-
-BÁO CÁO THỰC HÀNH LAB 3: NHẬN DIỆN VÀ ỨNG PHÓ CÁC MỐI ĐE DỌA ĐẾN AN TOÀN THÔNG TIN
-I. THÔNG TIN SINH VIÊN VÀ BÀI LAB
-Họ và tên: Lê Nguyễn Đăng Khoa
-
-Mã số sinh viên (MSSV): 1150070021
-
-Mã lớp: 11_ĐH_TMĐT
-
-Tên bài LAB: Lab 3: Nhận diện và ứng phó các mối đe dọa đến an toàn thông tin
-
-II. PHIÊN BẢN MÔI TRƯỜNG VÀ CÔNG CỤ
-Môi trường ảo hóa: VMware Workstation Pro 26H1
-
-Hệ điều hành máy ảo (VM): Windows 11 25H2 x64
-
-Endpoint Protection: Microsoft Defender Antivirus (Duy trì Real-time Protection và Tamper Protection bật)
-
-Shell: Windows PowerShell 5.1 (Run as administrator)
-
-Bộ công cụ giám sát Sysinternals:
-
-Sysmon: v15.22 (Schema 4.90)
-
-Autoruns: v14.3
-
-Process Explorer: v17.14
-
-Công cụ phân tích mạng và lập trình:
-
-Wireshark: v4.6.8 Stable + Npcap
-
-Python: v3.14.7
-
-Gói dữ liệu mẫu: LAB3_Threats_Assets.zip
-
-III. HƯỚNG DẪN DỰNG MÔI TRƯỜNG THỰC HÀNH
-Bước 1: Tạo máy ảo và khởi tạo Snapshot Clean
-Dựng VM Windows 11 25H2 x64 (2 vCPU, 6 GB RAM, 64 GB Disk) trên VMware Workstation Pro 26H1.
-
-Chuyển Network Adapter sang chế độ Host-only.
-
-Cập nhật bản vá KB5124008 và tạo snapshot điểm chuẩn tên LAB3_CLEAN_20260914.
-
-Bước 2: Tạo cấu trúc thư mục làm việc
-Mở PowerShell dưới quyền Administrator và khởi tạo các thư mục lưu trữ:
-
 PowerShell
 $Lab = 'C:\LAB3'
 New-Item -ItemType Directory -Force "$Lab\Evidence", "$Lab\Tools", "$Lab\Downloads", "$Lab\Assets" | Out-Null
@@ -149,6 +72,7 @@ Invoke-WebRequest 'https://download.sysinternals.com/files/ProcessExplorer.zip' 
 Expand-Archive "$D\Sysmon.zip" -DestinationPath "$T\Sysmon" -Force
 Expand-Archive "$D\Autoruns.zip" -DestinationPath "$T\Autoruns" -Force
 Expand-Archive "$D\ProcessExplorer.zip" -DestinationPath "$T\ProcessExplorer" -Force
+
 IV. BÁO CÁO KẾT QUẢ CÁC TÌNH HUỐNG (PASS / FAIL)
 TH0: Baseline trước khi tạo tình huống
 
